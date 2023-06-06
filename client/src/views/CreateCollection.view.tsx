@@ -32,7 +32,11 @@ export const CreateCollectionView = () => {
 
   const handleSendTraitsClick = async () => {
     for (const traitType in files) {
-      sendTraits(traitType, traitZIndex[traitType], files[traitType]);
+      await sendTraits(
+        traitType,
+        traitType in traitZIndex ? traitZIndex[traitType] : 0,
+        files[traitType]
+      );
     }
   };
 

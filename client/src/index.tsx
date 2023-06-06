@@ -6,17 +6,23 @@ import { AptosWalletAdapterProvider } from "@aptos-labs/wallet-adapter-react";
 import { App } from "./App";
 import { theme } from "./Theme";
 import { CssVarsProvider } from "@mui/joy";
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 
 const wallets = [new PetraWallet()];
+
+// Create a client
+const queryClient = new QueryClient();
 
 const root = ReactDOM.createRoot(
   document.getElementById("root") as HTMLElement
 );
 root.render(
   <AptosWalletAdapterProvider plugins={wallets} autoConnect={true}>
-    <CssVarsProvider theme={theme} defaultMode="dark">
-      <App />
-    </CssVarsProvider>
+    <QueryClientProvider client={queryClient}>
+      <CssVarsProvider theme={theme} defaultMode="dark">
+        <App />
+      </CssVarsProvider>
+    </QueryClientProvider>
   </AptosWalletAdapterProvider>
 );
 
