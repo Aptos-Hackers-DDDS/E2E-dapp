@@ -1,6 +1,7 @@
 import {
   AccountBalanceWallet,
   Collections,
+  Person,
   Settings,
   SmartToy,
   TravelExplore,
@@ -18,12 +19,18 @@ import {
 } from "@mui/joy";
 import { cloneElement } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
+import { MyCollection } from "../views/MyCollection.view";
 
 const Items = [
   {
     name: "Create Collection",
     icon: <Collections />,
     path: "create-collection",
+  },
+  {
+    name: "My Collection",
+    icon: <Person />,
+    path: "my-collection",
   },
   {
     name: "Mint",

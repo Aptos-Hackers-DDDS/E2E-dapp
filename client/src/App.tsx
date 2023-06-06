@@ -6,6 +6,7 @@ import "./App.css";
 import { CreateCollectionView } from "./views/CreateCollection.view";
 import { MintView } from "./views/Mint.view";
 import { TestView } from "./views/Test.view";
+import { MyCollection } from "./views/MyCollection.view";
 
 const Router = () => {
   const routes = useRoutes([
@@ -14,6 +15,7 @@ const Router = () => {
       element: <MainLayout />,
       children: [
         { path: "create-collection", element: <CreateCollectionView /> },
+        { path: "my-collection", element: <MyCollection /> },
         { path: "mint", element: <MintView /> },
         { path: "test", element: <TestView /> },
         {
