@@ -6,23 +6,16 @@ import { TxnBuilderTypes } from "aptos";
 import { AptosClient, Types } from "aptos";
 import { useCallback, useState } from "react";
 import { useDropzone } from "react-dropzone";
-
-function getBase64(file: File) {
-  var reader = new FileReader();
-  reader.readAsDataURL(file);
-  reader.onload = function () {
-    console.log(reader.result);
-  };
-  reader.onerror = function (error) {
-    console.log("Error: ", error);
-  };
-}
+import { getOwnedTokens, sendTraits } from "../utils/util";
 
 export const CreateCollectionView = () => {
   const theme = useTheme();
   const { account, signAndSubmitTransaction } = useWallet();
 
   const [files, setFiles] = useState<{ [trait: string]: File[] }>({});
+  const [traitZIndex, setTraitZIndex] = useState<{ [trait: string]: number }>(
+    {}
+  );
   const [selectedFile, setSelectedFile] = useState<File>();
 
   const onDrop = useCallback((acceptedFiles: any[]) => {
@@ -38,19 +31,9 @@ export const CreateCollectionView = () => {
   }, []);
   const { getRootProps, getInputProps, isDragActive } = useDropzone({ onDrop });
 
-  const onSignAndSubmitTransaction = async () => {
-    const payload: Types.TransactionPayload = {
-      type: "entry_function_payload",
-      function:
-        "0x512c789cb722876640d0b0ab7947a7a9af4998bf027044e4292832b6c6d1cc4c::trait::add_trait",
-      type_arguments: [],
-      arguments: [BCS.bcsSerializeBytes(new TextEncoder().encode("test"))],
-    };
-
-    try {
-      const response = await signAndSubmitTransaction(payload);
-    } catch (error: any) {
-      console.log("error", error);
+  const handleSendTraitsClick = async () => {
+    for (const traitType in files) {
+      sendTraits(traitType, traitZIndex[traitType], files[traitType]);
     }
   };
 
@@ -83,9 +66,16 @@ export const CreateCollectionView = () => {
           <Button
             disabled={!selectedFile}
             startDecorator={<Send />}
-            onClick={onSignAndSubmitTransaction}
+            onClick={handleSendTraitsClick}
           >
             Send traits
+          </Button>
+          <Button
+            disabled={!selectedFile}
+            startDecorator={<Send />}
+            onClick={getOwnedTokens}
+          >
+            test 2
           </Button>
           {Object.keys(files).map((trait) => {
             return (
