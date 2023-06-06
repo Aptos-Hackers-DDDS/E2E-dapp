@@ -7,6 +7,7 @@ import { CreateCollectionView } from "./views/CreateCollection.view";
 import { MintView } from "./views/Mint.view";
 import { TestView } from "./views/Test.view";
 import { MyCollection } from "./views/MyCollection.view";
+import { UploadedTraitsView } from "./views/UploadedTraits.view";
 
 const Router = () => {
   const routes = useRoutes([
@@ -21,6 +22,10 @@ const Router = () => {
         {
           path: "todolist",
           element: <TodoListView />,
+        },
+        {
+          path: "uploaded-traits",
+          element: <UploadedTraitsView />,
         },
       ],
     },

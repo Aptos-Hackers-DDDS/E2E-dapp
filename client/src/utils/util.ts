@@ -34,7 +34,7 @@ export const sendTraits = async (
 
   const tag = new TxnBuilderTypes.TypeTagStruct(
     TxnBuilderTypes.StructTag.fromString(
-      "0x512c789cb722876640d0b0ab7947a7a9af4998bf027044e4292832b6c6d1cc4c::dynamic_toads::" +
+      "0x22424379bfcf263c4a90730bffebc03d947803dfa779e568e0c45e16c4f5a106::dynamic_toads::" +
         traitType
     )
   );
@@ -44,7 +44,7 @@ export const sendTraits = async (
     const entryFunctionPayload =
       new TxnBuilderTypes.TransactionPayloadEntryFunction(
         TxnBuilderTypes.EntryFunction.natural(
-          "0x512c789cb722876640d0b0ab7947a7a9af4998bf027044e4292832b6c6d1cc4c::dynamic_toads",
+          "0x22424379bfcf263c4a90730bffebc03d947803dfa779e568e0c45e16c4f5a106::dynamic_toads",
           "create_new",
           [tag],
           [
@@ -81,6 +81,11 @@ export const getOwnedTokens = async () => {
   const ownedTokens = await provider.indexerClient.getOwnedTokens(
     account1.address()
   );
-  const last = ownedTokens.current_token_ownerships_v2.at(-1);
-  console.log(await provider.getAccountResources(last!.storage_id));
+  return ownedTokens.current_token_ownerships_v2;
+  // const last = ownedTokens.current_token_ownerships_v2.at(-1);
+  // console.log(
+  //   await provider.getAccountResources(
+  //     "0x45e9ad26cc290c23310a43ca02e805d7906e2516bf6ad5ab403dd2da506784f1"
+  //   )
+  // );
 };

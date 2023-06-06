@@ -28,6 +28,11 @@ const Items = [
     path: "create-collection",
   },
   {
+    name: "Uploaded traits",
+    icon: <Collections />,
+    path: "uploaded-traits",
+  },
+  {
     name: "My Collection",
     icon: <Person />,
     path: "my-collection",

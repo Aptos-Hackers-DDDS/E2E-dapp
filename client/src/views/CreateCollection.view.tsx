@@ -1,6 +1,6 @@
 import { useWallet } from "@aptos-labs/wallet-adapter-react";
 import { Send } from "@mui/icons-material";
-import { Box, Button, Divider, Typography, useTheme } from "@mui/joy";
+import { Box, Button, Divider, Input, Typography, useTheme } from "@mui/joy";
 import { BCS } from "aptos";
 import { TxnBuilderTypes } from "aptos";
 import { AptosClient, Types } from "aptos";
@@ -16,7 +16,6 @@ export const CreateCollectionView = () => {
   const [traitZIndex, setTraitZIndex] = useState<{ [trait: string]: number }>(
     {}
   );
-  const [selectedFile, setSelectedFile] = useState<File>();
 
   const onDrop = useCallback((acceptedFiles: any[]) => {
     const filesTmp: { [trait: string]: File[] } = {};
@@ -63,64 +62,76 @@ export const CreateCollectionView = () => {
         </Box>
       ) : (
         <>
-          <Button
-            disabled={!selectedFile}
-            startDecorator={<Send />}
-            onClick={handleSendTraitsClick}
-          >
+          <Button startDecorator={<Send />} onClick={handleSendTraitsClick}>
             Send traits
           </Button>
-          <Button
-            disabled={!selectedFile}
-            startDecorator={<Send />}
-            onClick={getOwnedTokens}
-          >
+          <Button startDecorator={<Send />} onClick={getOwnedTokens}>
             test 2
           </Button>
-          {Object.keys(files).map((trait) => {
-            return (
-              <Box
-                key={trait}
-                sx={{ display: "flex", flexDirection: "column" }}
-              >
-                <Typography color="primary" level="h3">
-                  {trait}
-                </Typography>
-                <Divider />
+          <Box sx={{ display: "flex", flexDirection: "column", rowGap: 2 }}>
+            {Object.keys(files).map((trait) => {
+              return (
                 <Box
-                  sx={{
-                    display: "flex",
-                    flexDirection: "row",
-                    columnGap: 1,
-                    flexWrap: "wrap",
-                    justifyContent: "center",
-                  }}
+                  key={trait}
+                  sx={{ display: "flex", flexDirection: "column", rowGap: 2 }}
                 >
-                  {files[trait].map((file) => (
-                    <Box
-                      key={file.name}
-                      onClick={() => setSelectedFile(file)}
-                      sx={{
-                        display: "flex",
-                        flexDirection: "row",
-                        alignItems: "center",
-                        cursor: "pointer",
-                        border: "1px solid " + theme.palette.divider,
-                        borderColor:
-                          selectedFile?.name === file.name ? "red" : undefined,
-                        p: 2,
-                        justifyContent: "space-between",
-                        width: "45%",
-                      }}
-                    >
-                      <Typography>{file.name}</Typography>
-                      <img src={URL.createObjectURL(file)} width="200px" />
-                    </Box>
-                  ))}
+                  <Typography color="primary" level="h3">
+                    {trait}
+                  </Typography>
+                  <Box
+                    sx={{
+                      display: "flex",
+                      flexDirection: "row",
+                      columnGap: 4,
+                      alignItems: "center",
+                    }}
+                  >
+                    <Typography>Z-Index</Typography>
+                    <Input
+                      value={traitZIndex[trait] || 0}
+                      onChange={(e) =>
+                        setTraitZIndex((prev) => ({
+                          ...prev,
+                          [trait]: Number(e.target.value),
+                        }))
+                      }
+                    />
+                  </Box>
+                  <Divider />
+                  <Box
+                    sx={{
+                      display: "flex",
+                      flexDirection: "row",
+                      columnGap: 2,
+                      rowGap: 2,
+                      flexWrap: "wrap",
+                      justifyContent: "center",
+                    }}
+                  >
+                    {files[trait].map((file) => (
+                      <Box
+                        key={file.name}
+                        sx={{
+                          display: "flex",
+                          flexDirection: "row",
+                          alignItems: "center",
+                          cursor: "pointer",
+                          border: "1px solid " + theme.palette.divider,
+                          p: 2,
+                          justifyContent: "space-between",
+                          width: "45%",
+                        }}
+                      >
+                        <Typography>{file.name}</Typography>
+                        <img src={URL.createObjectURL(file)} width="100px" />
+                      </Box>
+                    ))}
+                  </Box>
+                  <Divider />
                 </Box>
-              </Box>
-            );
-          })}
+              );
+            })}
+          </Box>
         </>
       )}
     </Box>
