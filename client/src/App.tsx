@@ -5,6 +5,10 @@ import "@aptos-labs/wallet-adapter-ant-design/dist/index.css";
 import { Provider, Network } from "aptos";
 import { useWallet } from "@aptos-labs/wallet-adapter-react";
 import { CheckboxChangeEvent } from "antd/es/checkbox";
+import { Uploader } from "uploader"; // Installed by "react-uploader".
+import { UploadButton } from "react-uploader";
+
+
 
 const provider = new Provider(Network.DEVNET);
 const moduleAddress = "0x54ee2df689360a1af3b87962d4a89274228bb86624258a696449e3b997326028";
@@ -15,6 +19,9 @@ type Task = {
   content: string;
   task_id: string;
 };
+
+
+
 
 function App() {
   const { account, signAndSubmitTransaction } = useWallet();
@@ -29,6 +36,16 @@ function App() {
     const value = event.target.value;
     setNewTask(value);
   };
+
+
+  // Initialize once (at the start of your app).
+const uploader = Uploader({
+  apiKey: "free" // Get production API keys from Upload.io
+});
+
+// Configuration options: https://upload.io/uploader#customize
+const options_FileUpld = { multi: true };
+
 
   const fetchList = async () => {
     if (!account) return [];
@@ -261,6 +278,24 @@ function App() {
           )
         }
       </Spin>
+      <UploadButton uploader={uploader}
+                options={options_FileUpld}
+                onComplete={files => alert(files.map(x => x.fileUrl).join("\n"))}>
+    {({onClick}) =>
+      <Button onClick={onClick}
+      disabled={!account}
+      
+      
+      type="primary"
+      style={{ height: "40px", backgroundColor: "#3f67ff" }}
+      
+      >
+        Upload a file...
+      </Button>
+    }
+  </UploadButton>
+
+
 
     </>
   );
