@@ -7,6 +7,7 @@ import {
   Provider,
   TxnBuilderTypes,
 } from "aptos";
+import { contractAddress, privateKey } from "../constants";
 
 export const NODE_URL =
   process.env.APTOS_NODE_URL || "https://fullnode.testnet.aptoslabs.com";
@@ -14,11 +15,8 @@ export const NODE_URL =
 // export const FAUCET_URL =
 //   process.env.APTOS_FAUCET_URL || "https://faucet.tesnet.aptoslabs.com";
 
-const account1 = new AptosAccount(
-  HexString.ensure(
-    "0x5cc665ebb11d4ed70eb3fc902e7f81373c5b43e5158f423735ed9ecb3a904813"
-  ).toUint8Array()
-);
+const account1 = new AptosAccount(HexString.ensure(privateKey).toUint8Array());
+
 const client = new AptosClient(NODE_URL);
 const provider = new Provider(Network.TESTNET);
 
@@ -43,8 +41,7 @@ export const sendTraits = async (
 
   const tag = new TxnBuilderTypes.TypeTagStruct(
     TxnBuilderTypes.StructTag.fromString(
-      "0x3e3f4caea68c15a272626f7f27801044296004bbd8e1c9c0dc0b8dbf5bccfa23::dynamic_toads::" +
-        traitType
+      `${contractAddress}::dynamic_toads::` + traitType
     )
   );
 
@@ -57,7 +54,7 @@ export const sendTraits = async (
     const entryFunctionPayload =
       new TxnBuilderTypes.TransactionPayloadEntryFunction(
         TxnBuilderTypes.EntryFunction.natural(
-          "0x3e3f4caea68c15a272626f7f27801044296004bbd8e1c9c0dc0b8dbf5bccfa23::dynamic_toads",
+          `${contractAddress}::dynamic_toads`,
           "create_new",
           [tag],
           [
@@ -76,6 +73,7 @@ export const sendTraits = async (
 
     const bcsTxn = AptosClient.generateBCSTransaction(account1, rawTransaction);
     const transactionRes = await client.submitSignedBCSTransaction(bcsTxn);
+    console.log(transactionRes);
     await client.waitForTransaction(transactionRes.hash);
     console.log(transactionRes);
 
@@ -88,12 +86,6 @@ export const getOwnedTokens = async () => {
     account1.address()
   );
   return ownedTokens.current_token_ownerships_v2;
-  // const last = ownedTokens.current_token_ownerships_v2.at(-1);
-  // console.log(
-  //   await provider.getAccountResources(
-  //     "0x45e9ad26cc290c23310a43ca02e805d7906e2516bf6ad5ab403dd2da506784f1"
-  //   )
-  // );
 };
 
 export const getTokenDetails = async (token: string) => {

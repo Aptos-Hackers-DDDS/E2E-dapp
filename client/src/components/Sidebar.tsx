@@ -1,10 +1,12 @@
 import {
   AccountBalanceWallet,
+  Cloud,
   Collections,
   Person,
   Settings,
   SmartToy,
   TravelExplore,
+  Upload,
 } from "@mui/icons-material";
 import {
   Autocomplete,
@@ -23,13 +25,13 @@ import { MyCollection } from "../views/MyCollection.view";
 
 const Items = [
   {
-    name: "Create Collection",
-    icon: <Collections />,
+    name: "Upload Traits",
+    icon: <Upload />,
     path: "create-collection",
   },
   {
-    name: "Uploaded traits",
-    icon: <Collections />,
+    name: "Traits on chain",
+    icon: <Cloud />,
     path: "uploaded-traits",
   },
   {
@@ -42,11 +44,11 @@ const Items = [
     icon: <AccountBalanceWallet />,
     path: "mint",
   },
-  {
-    name: "Testing",
-    icon: <SmartToy />,
-    path: "test",
-  },
+  // {
+  //   name: "Testing",
+  //   icon: <SmartToy />,
+  //   path: "test",
+  // },
 ];
 
 export const Sidebar = () => {
