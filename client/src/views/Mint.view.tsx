@@ -34,7 +34,7 @@ export const MintView = () => {
         setIsMinting(false);
         setIsMintFinished(true);
         window.localStorage.setItem("minted", "true");
-      }, 3000);
+      }, 1500);
     }
   }, [isMinting]);
 

@@ -12,18 +12,19 @@ const items = [background, skin, clothes, eyes, head, mouth];
 
 export const NftDetails = () => {
   const [frame, setFrame] = useState(1);
+  const [hover, setHover] = useState(false);
 
-  useEffect(() => {
-    const interval = setInterval(() => {
-      setFrame((frame) => (frame + 1 > items.length ? 1 : frame + 1));
-    }, 1000);
+  // useEffect(() => {
+  //   const interval = setInterval(() => {
+  //     setFrame((frame) => (frame + 1 > items.length ? 1 : frame + 1));
+  //   }, 1000);
 
-    return () => clearInterval(interval);
-  }, []);
+  //   return () => clearInterval(interval);
+  // }, []);
 
   const renderPiece = (src: string, label: string, traitName: string) => {
     return (
-      <Box sx={{ textAlign: "center", border: "1px solid white" }}>
+      <Box sx={{ textAlign: "center", border: "1px solid white", p: 2 }}>
         <Typography fontSize="1rem" fontWeight="bold">
           {label}
         </Typography>
@@ -49,7 +50,16 @@ export const NftDetails = () => {
         {renderPiece(skin, "Skin", "Tan 1")}
         {renderPiece(clothes, "Clothes", "Experiment N325")}
       </Box>
-      <Box>
+      <Box
+        component={Box}
+        onMouseEnter={() => setHover(true)}
+        onMouseLeave={() => setHover(false)}
+        sx={{
+          width: "300px",
+          mx: hover ? "100px" : "20px",
+          transition: "margin 1s",
+        }}
+      >
         <svg
           id="woolf"
           width="100%"
@@ -58,13 +68,21 @@ export const NftDetails = () => {
           viewBox="0 0 40 40"
           xmlns="http://www.w3.org/2000/svg"
           xmlnsXlink="http://www.w3.org/1999/xlink"
+          overflow="visible"
         >
-          {items.slice(0, frame).map((item) => (
+          {items.map((item, i) => (
             <image
-              x="4"
-              y="4"
-              width="32"
-              height="32"
+              style={{
+                transform: hover
+                  ? `translate(${i * 4 * (i % 2 ? -1 : 1)}px, ${
+                      i * 4 * (i % 4 ? 1 : -1)
+                    }px)`
+                  : undefined,
+                transition: "transform 1s",
+                backgroundColor: "black",
+              }}
+              width="100%"
+              height="100%"
               image-rendering="pixelated"
               preserveAspectRatio="xMidYMid"
               xlinkHref={item}
