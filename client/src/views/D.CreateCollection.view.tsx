@@ -74,6 +74,7 @@ export const DCreateCollectionView = () => {
           ) : (
             <Typography>
               Drag 'n' drop some files here, or click to select files
+              
             </Typography>
           )}
         </Box>
