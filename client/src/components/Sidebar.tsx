@@ -44,11 +44,29 @@ const Items = [
     icon: <AccountBalanceWallet />,
     path: "mint",
   },
-  // {
-  //   name: "Testing",
-  //   icon: <SmartToy />,
-  //   path: "test",
-  // },
+  {
+    name: "Testing",
+    icon: <SmartToy />,
+    path: "test",
+  },
+  {
+    name: "aTesting",
+    icon: <SmartToy />,
+    path: "A",
+  },
+
+  {
+    name: "bTesting",
+    icon: <SmartToy />,
+    path: "B",
+  },
+  {
+    name: "dUpload",
+    icon: <SmartToy />,
+    path: "Dcreate-collection",
+  },
+
+
 ];
 
 export const Sidebar = () => {

@@ -9,11 +9,12 @@ import { useDropzone } from "react-dropzone";
 import { getOwnedTokens, sendTraits } from "../utils/util";
 import { TraitContainer } from "../components/TraitContainer";
 
-export const CreateCollectionView = () => {
+export const DCreateCollectionView = () => {
   const theme = useTheme();
-
+  let sendTraitsBtnDisabled = true;
   const { account, signAndSubmitTransaction } = useWallet();
-  console.log("account CreateCollectionView", account);
+
+  account ? sendTraitsBtnDisabled = false : sendTraitsBtnDisabled = true;
 
   const [files, setFiles] = useState<{ [trait: string]: File[] }>({});
   const [traitZIndex, setTraitZIndex] = useState<{ [trait: string]: number }>(
@@ -21,7 +22,7 @@ export const CreateCollectionView = () => {
   );
 
   const onDrop = useCallback((acceptedFiles: any[]) => {
-    
+
     const filesTmp: { [trait: string]: File[] } = {};
     console.log("onDrop useCallback", filesTmp);
 
@@ -33,14 +34,14 @@ export const CreateCollectionView = () => {
       filesTmp[traitName].push(file);
     }
 
-    
+
     setFiles(filesTmp);
     console.log("onDrop useCallback after loop & setfiles", filesTmp);
 
   }, []);
   const { getRootProps, getInputProps, isDragActive } = useDropzone({ onDrop });
 
-  
+
   const handleSendTraitsClick = async () => {
     for (const traitType in files) {
       await sendTraits(
@@ -76,10 +77,11 @@ export const CreateCollectionView = () => {
             </Typography>
           )}
         </Box>
+
       ) : (
         <>
-          <Button startDecorator={<Send />} onClick={handleSendTraitsClick}>
-            Send traits
+          <Button disabled={sendTraitsBtnDisabled} startDecorator={<Send />} onClick={handleSendTraitsClick} >
+            Send traits {!sendTraitsBtnDisabled}
           </Button>
           <Box sx={{ display: "flex", flexDirection: "column", rowGap: 2 }}>
             {Object.keys(files).map((trait) => {

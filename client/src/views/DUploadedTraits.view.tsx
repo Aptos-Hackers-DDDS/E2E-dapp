@@ -1,12 +1,15 @@
 import { Box, Divider, Typography } from "@mui/joy";
 import { useEffect, useState } from "react";
 import { getOwnedTokens, getTokenDetails } from "../utils/util";
+
+
 import { useQuery, useQueries } from "@tanstack/react-query";
 import { isUint8Array } from "util/types";
 import { TraitContainer } from "../components/TraitContainer";
+
 import { contractAddress } from "../constants";
 
-export const UploadedTraitsView = () => {
+export const DUploadedTraitsView = () => {
   const { data: ownedTokens } = useQuery(["ownedTokens"], () =>
     getOwnedTokens()
   );
